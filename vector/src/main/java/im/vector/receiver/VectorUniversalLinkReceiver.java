@@ -25,6 +25,8 @@ import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 
+import org.matrix.androidsdk.rest.callback.SimpleApiCallback;
+import org.matrix.androidsdk.rest.model.RoomMember;
 import org.matrix.androidsdk.util.Log;
 
 import org.matrix.androidsdk.MXSession;
@@ -313,15 +315,14 @@ public class VectorUniversalLinkReceiver extends BroadcastReceiver {
             return;
         }
 
-        if (roomIdOrAlias.startsWith("!")) { // usual room Id format (not alias)
+        if (roomIdOrAlias.startsWith("!") || roomIdOrAlias.startsWith("#")) { // usual room Id format (not alias)
             final RoomPreviewData roomPreviewData = new RoomPreviewData(mSession, roomIdOrAlias, mParameters.get(ULINK_EVENT_ID_KEY), roomAlias, mParameters);
             Room room = mSession.getDataHandler().getRoom(roomIdOrAlias, false);
 
             // if the room exists
-            if ((null != room) && !room.isInvited()) {
+            if ((null != room) && !room.isInvited() && room.selfJoined()) {
                 openRoomActivity(aContext);
             } else {
-
                 CommonActivityUtils.previewRoom(VectorApp.getCurrentActivity(), mSession, roomIdOrAlias, roomPreviewData, null);
             }
         } else { // room ID is provided as a room alias: get corresponding room ID

@@ -1076,7 +1076,7 @@ public class CommonActivityUtils {
         // if the room exists
         if (null != room) {
             // either the user is invited
-            if (room.isInvited()) {
+            if (!room.selfJoined() || room.isInvited()) {
                 Log.d(LOG_TAG, "previewRoom : the user is invited -> display the preview " + VectorApp.getCurrentActivity());
                 previewRoom(fromActivity, roomPreviewData);
             } else {
