@@ -1304,7 +1304,7 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
             }
 
             // display a type watermark
-            final ImageView imageTypeView = convertView.findViewById(R.id.messagesAdapter_image_type);
+            final ImageView imageTypeView = convertView.findViewById(R.id.messages_adapter_image_type);
 
             if (null == imageTypeView) {
                 Log.e(LOG_TAG, "getImageVideoView : invalid layout");
@@ -1320,15 +1320,22 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
                 imageTypeView.setVisibility(View.GONE);
             }
 
-            if (type == ROW_TYPE_IMAGE || type == ROW_TYPE_VIDEO) {
+            // Display the sticker's description
+            final TextView tvStickerDescription = convertView.findViewById(R.id.message_adapter_sticker_description);
+            final ImageView ivStickerTriangle = convertView.findViewById(R.id.message_adapter_sticker_triangle);
 
+            if (type == ROW_TYPE_IMAGE || type == ROW_TYPE_VIDEO) {
+                tvStickerDescription.setVisibility(View.GONE);
+                ivStickerTriangle.setVisibility(View.GONE);
                 // download management
                 mMediasHelper.managePendingImageVideoDownload(convertView, event, message, position);
                 // upload management
                 mMediasHelper.managePendingImageVideoUpload(convertView, event, message);
 
             } else if (type == ROW_TYPE_STICKER) {
-
+                ivStickerTriangle.setVisibility(View.VISIBLE);
+                tvStickerDescription.setVisibility(View.VISIBLE);
+                tvStickerDescription.setText(stickerMessage.body);
                 // download management
                 mMediasHelper.managePendingStickerDownload(convertView, event, stickerMessage, position);
                 // upload management
@@ -1336,12 +1343,12 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
             }
 
             // dimmed when the message is not sent
-            View imageLayout = convertView.findViewById(R.id.messagesAdapter_image_layout);
+            View imageLayout = convertView.findViewById(R.id.messages_adapter_image_layout);
             imageLayout.setAlpha(event.isSent() ? 1.0f : 0.5f);
 
             this.manageSubView(position, convertView, imageLayout, type);
 
-            ImageView imageView = convertView.findViewById(R.id.messagesAdapter_image);
+            ImageView imageView = convertView.findViewById(R.id.messages_adapter_image);
             addContentViewListeners(convertView, imageView, position, type);
         } catch (Exception e) {
             Log.e(LOG_TAG, "## getImageVideoView() failed : " + e.getMessage());
@@ -1511,7 +1518,7 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
 
             // display the right message type icon.
             // Audio and File messages are managed by the same method
-            final ImageView imageTypeView = convertView.findViewById(R.id.messagesAdapter_image_type);
+            final ImageView imageTypeView = convertView.findViewById(R.id.messages_adapter_image_type);
 
             if (null != imageTypeView) {
                 imageTypeView.setImageResource(Message.MSGTYPE_AUDIO.equals(fileMessage.msgtype) ? R.drawable.filetype_audio : R.drawable.filetype_attachment);

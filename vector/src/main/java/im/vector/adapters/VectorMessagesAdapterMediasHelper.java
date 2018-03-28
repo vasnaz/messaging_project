@@ -231,7 +231,7 @@ class VectorMessagesAdapterMediasHelper {
             }
         }
 
-        ImageView imageView = convertView.findViewById(R.id.messagesAdapter_image);
+        ImageView imageView = convertView.findViewById(R.id.messages_adapter_image);
 
         // reset the bitmap if the url is not the same than before
         if ((null == thumbUrl) || !TextUtils.equals(imageView.hashCode() + "", mUrlByBitmapIndex.get(thumbUrl))) {
@@ -241,7 +241,7 @@ class VectorMessagesAdapterMediasHelper {
             }
         }
 
-        RelativeLayout informationLayout = convertView.findViewById(R.id.messagesAdapter_image_layout);
+        RelativeLayout informationLayout = convertView.findViewById(R.id.messages_adapter_image_layout);
         final FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) informationLayout.getLayoutParams();
 
         // the thumbnails are always pre - rotated
@@ -545,7 +545,7 @@ class VectorMessagesAdapterMediasHelper {
             }
         }
 
-        ImageView imageView = convertView.findViewById(R.id.messagesAdapter_image);
+        ImageView imageView = convertView.findViewById(R.id.messages_adapter_image);
 
         // reset the bitmap if the url is not the same than before
         if ((null == thumbUrl) || !TextUtils.equals(imageView.hashCode() + "", mUrlByBitmapIndex.get(thumbUrl))) {
@@ -555,7 +555,7 @@ class VectorMessagesAdapterMediasHelper {
             }
         }
 
-        RelativeLayout informationLayout = convertView.findViewById(R.id.messagesAdapter_image_layout);
+        RelativeLayout informationLayout = convertView.findViewById(R.id.messages_adapter_image_layout);
         final FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) informationLayout.getLayoutParams();
 
         // the thumbnails are always pre - rotated
