@@ -122,6 +122,7 @@
 
                 <!-- the descirption of the sticker -->
                 <LinearLayout
+                    android:id="@+id/message_adapter_sticker_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="80dp"
                     android:orientation="vertical"

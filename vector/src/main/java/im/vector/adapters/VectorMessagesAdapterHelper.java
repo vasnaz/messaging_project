@@ -1,5 +1,6 @@
 /*
  * Copyright 2017 Vector Creations Ltd
+ * Copyright 2018 New Vector Ltd
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -586,6 +587,37 @@ class VectorMessagesAdapterHelper {
             } else {
                 headerLayout.setVisibility(View.GONE);
             }
+        }
+    }
+
+    /**
+     * Hide the sticker description layout view
+     *
+     * @param convertView base view
+     */
+    void hideStickerDescription(View convertView) {
+        View stickerDescriptionView = convertView.findViewById(R.id.message_adapter_sticker_layout);
+
+        if (null != stickerDescriptionView) {
+            stickerDescriptionView.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * Display the sticker description within the dedicated layout.
+     *
+     * @param convertView   base view
+     */
+    void displayStickerDescription(View convertView, StickerMessage stickerMessage) {
+        View stickerDescriptionView = convertView.findViewById(R.id.message_adapter_sticker_layout);
+        TextView tvStickerDescription = convertView.findViewById(R.id.message_adapter_sticker_description);
+        ImageView ivStickerTriangle = convertView.findViewById(R.id.message_adapter_sticker_triangle);
+
+        if (null != stickerDescriptionView) {
+            stickerDescriptionView.setVisibility(View.VISIBLE);
+            tvStickerDescription.setVisibility(View.VISIBLE);
+            ivStickerTriangle.setVisibility(View.VISIBLE);
+            tvStickerDescription.setText(stickerMessage.body);
         }
     }
 

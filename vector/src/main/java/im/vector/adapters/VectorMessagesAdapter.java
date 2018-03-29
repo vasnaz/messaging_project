@@ -1116,6 +1116,15 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
             mHelper.displayReadReceipts(convertView, row, mIsPreviewMode);
         }
 
+        // display sticker description
+
+        StickerMessage stickerMessage = JsonUtils.toStickerMessage(event.getContent());
+        if ((ROW_TYPE_STICKER == msgType)) {
+            mHelper.displayStickerDescription(convertView,stickerMessage);
+        } else {
+            mHelper.hideStickerDescription(convertView);
+        }
+
         // selection mode
         manageSelectionMode(convertView, event, msgType);
 
@@ -1290,17 +1299,17 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
                 message = imageMessage;
 
             } else if (type == ROW_TYPE_VIDEO) {
-                
+
                 message = JsonUtils.toVideoMessage(event.getContent());
                 waterMarkResourceId = R.drawable.filetype_video;
-                
+
             } else if (type == ROW_TYPE_STICKER) {
-                
+
                 stickerMessage = JsonUtils.toStickerMessage(event.getContent());
 
-                if ("image/gif".equals(stickerMessage.getMimeType())) {
+                /*if ("image/gif".equals(stickerMessage.getMimeType())) {
                     waterMarkResourceId = R.drawable.filetype_gif;
-                }
+                }*/
             }
 
             // display a type watermark
@@ -1320,22 +1329,13 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
                 imageTypeView.setVisibility(View.GONE);
             }
 
-            // Display the sticker's description
-            final TextView tvStickerDescription = convertView.findViewById(R.id.message_adapter_sticker_description);
-            final ImageView ivStickerTriangle = convertView.findViewById(R.id.message_adapter_sticker_triangle);
-
             if (type == ROW_TYPE_IMAGE || type == ROW_TYPE_VIDEO) {
-                tvStickerDescription.setVisibility(View.GONE);
-                ivStickerTriangle.setVisibility(View.GONE);
                 // download management
                 mMediasHelper.managePendingImageVideoDownload(convertView, event, message, position);
                 // upload management
                 mMediasHelper.managePendingImageVideoUpload(convertView, event, message);
 
             } else if (type == ROW_TYPE_STICKER) {
-                ivStickerTriangle.setVisibility(View.VISIBLE);
-                tvStickerDescription.setVisibility(View.VISIBLE);
-                tvStickerDescription.setText(stickerMessage.body);
                 // download management
                 mMediasHelper.managePendingStickerDownload(convertView, event, stickerMessage, position);
                 // upload management
