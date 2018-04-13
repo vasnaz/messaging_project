@@ -23,6 +23,7 @@ import android.media.ExifInterface;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -247,13 +248,34 @@ class VectorMessagesAdapterMediasHelper {
             }
         }
 
-        ImageView imageView = convertView.findViewById(R.id.messagesAdapter_image);
+        WebView webViewSticker = null;
+        ImageView imageView = null;
+
+        if (event.getType().equals(Event.EVENT_TYPE_STICKER)) {
+            webViewSticker = convertView.findViewById(R.id.message_adapter_sticker_webview);
+            webViewSticker.loadUrl(thumbUrl);
+        } else {
+            imageView = convertView.findViewById(R.id.messagesAdapter_image);
+        }
 
         // reset the bitmap if the url is not the same than before
-        if ((null == thumbUrl) || !TextUtils.equals(imageView.hashCode() + "", mUrlByBitmapIndex.get(thumbUrl))) {
-            imageView.setImageBitmap(null);
-            if (null != thumbUrl) {
-                mUrlByBitmapIndex.put(thumbUrl, imageView.hashCode() + "");
+        if (event.getType().equals(Event.EVENT_TYPE_STICKER)) {
+            if (null != webViewSticker) {
+                if ((null == thumbUrl) || !TextUtils.equals(webViewSticker.hashCode() + "", mUrlByBitmapIndex.get(thumbUrl))) {
+                    webViewSticker.loadUrl(null);
+                    if (null != thumbUrl) {
+                        mUrlByBitmapIndex.put(thumbUrl, webViewSticker.hashCode() + "");
+                    }
+                }
+            }
+        } else {
+            if (null != imageView) {
+                if ((null == thumbUrl) || !TextUtils.equals(imageView.hashCode() + "", mUrlByBitmapIndex.get(thumbUrl))) {
+                    imageView.setImageBitmap(null);
+                    if (null != thumbUrl) {
+                        mUrlByBitmapIndex.put(thumbUrl, imageView.hashCode() + "");
+                    }
+                }
             }
         }
 
@@ -374,6 +396,7 @@ class VectorMessagesAdapterMediasHelper {
             downloadProgressLayout.setVisibility(View.GONE);
         }
 
+        webViewSticker.setBackgroundColor(Color.TRANSPARENT);
         imageView.setBackgroundColor(Color.TRANSPARENT);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
     }

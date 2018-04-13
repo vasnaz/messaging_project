@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <include layout="@layout/vector_message_header"
@@ -87,11 +88,19 @@
 
                             <!-- the media -->
                             <ImageView
+                                android:id="@+id/messagesAdapter_image"
                                 android:layout_height="match_parent"
                                 android:layout_width="match_parent"
                                 android:layout_marginLeft="4dp"
-                                android:id="@+id/messagesAdapter_image"
                                 android:adjustViewBounds="true" />
+
+                            <WebView
+                                android:id="@+id/message_adapter_sticker_webview"
+                                android:layout_height="match_parent"
+                                android:layout_width="match_parent"
+                                android:layout_marginLeft="4dp"
+                                android:adjustViewBounds="true"
+                                tools:ignore="WebViewLayout" />
 
                             <!-- the media type -->
                             <ImageView

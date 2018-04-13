@@ -43,6 +43,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -1335,7 +1336,14 @@ public class VectorMessagesAdapter extends AbstractMessagesAdapter {
             this.manageSubView(position, convertView, imageLayout, type);
 
             ImageView imageView = convertView.findViewById(R.id.messagesAdapter_image);
-            addContentViewListeners(convertView, imageView, position, type);
+            WebView webViewSticker = convertView.findViewById(R.id.message_adapter_sticker_webview);
+
+            if (event.getType().equals(Event.EVENT_TYPE_STICKER)) {
+                addContentViewListeners(convertView, webViewSticker, position, type);
+            } else {
+                addContentViewListeners(convertView, imageView, position, type);
+            }
+
         } catch (Exception e) {
             Log.e(LOG_TAG, "## getImageVideoView() failed : " + e.getMessage());
         }
