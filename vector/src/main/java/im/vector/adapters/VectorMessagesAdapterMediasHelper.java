@@ -396,7 +396,6 @@ class VectorMessagesAdapterMediasHelper {
             downloadProgressLayout.setVisibility(View.GONE);
         }
 
-        webViewSticker.setBackgroundColor(Color.TRANSPARENT);
         imageView.setBackgroundColor(Color.TRANSPARENT);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
     }
