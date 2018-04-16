@@ -95,6 +95,7 @@
         android:largeHeap="true"
         android:logo="@drawable/logo"
         android:resizeableActivity="false"
+        android:hardwareAccelerated="false"
         android:theme="@style/AppTheme"
         tools:replace="allowBackup,label">
 

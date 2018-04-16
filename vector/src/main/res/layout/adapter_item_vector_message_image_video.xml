@@ -81,8 +81,8 @@
                         android:id="@+id/messagesAdapter_body_layout">
 
                         <RelativeLayout
-                            android:layout_gravity="right"
                             android:id="@+id/messagesAdapter_image_layout"
+                            android:layout_gravity="right"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
 
@@ -99,11 +99,12 @@
                                 android:layout_height="match_parent"
                                 android:layout_width="match_parent"
                                 android:layout_marginLeft="4dp"
-                                android:adjustViewBounds="true"
                                 android:layout_centerInParent="true"
                                 android:layout_gravity="center"
                                 android:scrollbars="none"
-                                android:visibility="invisible"
+                                android:adjustViewBounds="true"
+                                android:background="@android:color/transparent"
+                                android:layerType="software"
                                 tools:ignore="WebViewLayout" />
 
                             <!-- the media type -->

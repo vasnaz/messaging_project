@@ -229,6 +229,7 @@ class VectorMessagesAdapterMediasHelper {
                     orientation = imageInfo.orientation;
                 }
             }
+
         } else if (message instanceof VideoMessage){ // video
             VideoMessage videoMessage = (VideoMessage) message;
             videoMessage.checkMediaUrls();
@@ -248,15 +249,8 @@ class VectorMessagesAdapterMediasHelper {
             }
         }
 
-        WebView webViewSticker = null;
-        ImageView imageView = null;
-
-        if (event.getType().equals(Event.EVENT_TYPE_STICKER)) {
-            webViewSticker = convertView.findViewById(R.id.message_adapter_sticker_webview);
-            webViewSticker.loadUrl(thumbUrl);
-        } else {
-            imageView = convertView.findViewById(R.id.messagesAdapter_image);
-        }
+        final WebView webViewSticker = convertView.findViewById(R.id.message_adapter_sticker_webview);
+        ImageView imageView = convertView.findViewById(R.id.messagesAdapter_image);
 
         // reset the bitmap if the url is not the same than before
         if (event.getType().equals(Event.EVENT_TYPE_STICKER)) {
@@ -282,15 +276,29 @@ class VectorMessagesAdapterMediasHelper {
         RelativeLayout informationLayout = convertView.findViewById(R.id.messagesAdapter_image_layout);
         final FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) informationLayout.getLayoutParams();
 
-        // the thumbnails are always pre - rotated
-        String downloadId = mMediasCache.loadBitmap(mSession.getHomeServerConfig(), imageView, thumbUrl, maxImageWidth, maxImageHeight, rotationAngle, ExifInterface.ORIENTATION_UNDEFINED, "image/jpeg", encryptedFileInfo);
+        String downloadId = null;
+
+        if (event.getType().equals(Event.EVENT_TYPE_STICKER)) {
+            downloadId = mMediasCache.downloadIdFromUrl(((StickerMessage) message).getUrl());
+            webViewSticker.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
+            webViewSticker.getSettings().setJavaScriptEnabled(true);
+            webViewSticker.getSettings().setLoadWithOverviewMode(true);
+            webViewSticker.getSettings().setUseWideViewPort(true);
+            webViewSticker.getSettings().setBuiltInZoomControls(false);
+            webViewSticker.getSettings().setDisplayZoomControls(false);
+            webViewSticker.loadUrl(downloadId);
+        } else {
+            // the thumbnails are always pre - rotated
+            downloadId = mMediasCache.loadBitmap(mSession.getHomeServerConfig(), imageView, thumbUrl, maxImageWidth, maxImageHeight, rotationAngle, ExifInterface.ORIENTATION_UNDEFINED, "image/jpeg", encryptedFileInfo);
+            webViewSticker.setVisibility(View.GONE);
+        }
 
         // test if the media is downloading the thumbnail is not downloading
         if (null == downloadId) {
-            if (message instanceof VideoMessage) {
-                downloadId = mMediasCache.downloadIdFromUrl(((VideoMessage) message).getUrl());
-            } else if (message instanceof ImageMessage) {
+            if (message instanceof ImageMessage && !event.getType().equals(Event.EVENT_TYPE_STICKER)) {
                 downloadId = mMediasCache.downloadIdFromUrl(((ImageMessage) message).getUrl());
+            } else if (message instanceof VideoMessage) {
+                downloadId = mMediasCache.downloadIdFromUrl(((VideoMessage) message).getUrl());
             }
         }
 
@@ -396,6 +404,7 @@ class VectorMessagesAdapterMediasHelper {
             downloadProgressLayout.setVisibility(View.GONE);
         }
 
+        webViewSticker.setBackgroundColor(Color.TRANSPARENT);
         imageView.setBackgroundColor(Color.TRANSPARENT);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
     }
