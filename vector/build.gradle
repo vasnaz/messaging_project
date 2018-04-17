@@ -154,6 +154,10 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.2.0'
     compile 'com.squareup.okhttp:okhttp:2.2.0'
 
+    // Use Glide library to display image (Gif supported)
+    compile 'com.github.bumptech.glide:glide:4.7.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.+'
 
     compile 'com.googlecode.libphonenumber:libphonenumber:8.0.1'
